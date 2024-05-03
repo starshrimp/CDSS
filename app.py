@@ -9,7 +9,7 @@ with st.form("input_form"):
     # Text input for disease treatment
     disease = st.selectbox(
         "Which disease are you treating the horse for?",
-        ["Colic", "Laminitis", "Respiratory Infection", "Other"]
+        ["Wounds", "Intestinal Problems", "Respiratory Infection", "Other"]
     )
 
     # Numeric input for horse age
