@@ -23,7 +23,7 @@ def get_antibiotic_advice(condition, foal_status, pet_status, abscess, applicati
             (rules_df['abscess'].fillna('') == '')
         )
 
-    if application:
+    if application and application.lower() != "any":
         conditions.append(
             (rules_df['application'].fillna('').str.lower() == application.lower()) | 
             (rules_df['application'].fillna('') == '')
