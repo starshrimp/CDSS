@@ -40,7 +40,6 @@ def setup_streamlit(rules_df):
     if applications_list:
       applications_list.append("any")
       application = st.selectbox("Which method of application do you prefer?", applications_list) 
-      print(application)
     else:
       application = ""
 
