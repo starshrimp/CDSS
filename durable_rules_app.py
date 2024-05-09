@@ -1,3 +1,4 @@
+from durable.lang import *
 import pandas as pd
 import streamlit as st
 
@@ -24,21 +25,42 @@ class DiseaseManager:
         return self.conditions_map.get(system_name, [])
 
 
-diseases_df = pd.read_excel('diseases.xlsx', sheet_name='Diseases')
-conditions_df = pd.read_excel('conditions.xlsx', sheet_name='Conditions')
+def load_rules():
+    return pd.read_excel('rules.xlsx')
 
-manager = DiseaseManager(diseases_df, conditions_df)
+def get_medical_advice(condition, foal_status, pet_status, abscess, application, rules_df):
+    # Filter the DataFrame based on the provided conditions
+    filtered_rules = rules_df[
+        (rules_df['condition'].str.lower() == condition.lower()) &
+        (rules_df['foal_status'].str.lower() == foal_status.lower()) &
+        (rules_df['pet_status'].str.lower() == pet_status.lower()) &
+        (rules_df['abscess'].str.lower() == abscess.lower()) &
+        (rules_df['application'].str.lower() == application.lower())
+    ]
+    print(condition, foal_status, pet_status, abscess, application)
+    print(filtered_rules)
+    # Assuming that the filtered results will always have one matching row
+    if not filtered_rules.empty:
+        return filtered_rules.iloc[0]['advice']
+    else:
+        return "No advice found for the given conditions."
 
-# Streamlit user interface
-st.title('Disease and Condition Selector')
 
-# Select box for organ systems
-selected_system_label = st.selectbox("What organ system or disease type are you treating in the horse?", manager.organ_systems_labels)
+# Streamlit interface
+def main():
+    rules_df = load_rules()
+    st.title('Disease and Condition Selector')
 
-# Get conditions based on the selected label, mapping it to the name
-conditions = manager.get_conditions(selected_system_label)
+    manager = DiseaseManager(pd.read_excel('diseases.xlsx', sheet_name='Diseases'),
+                             pd.read_excel('conditions.xlsx', sheet_name='Conditions'))
 
-# Select box for conditions
-selected_condition = st.selectbox("What specific condition are you treating?", conditions)
+    selected_system_label = st.selectbox("Select the organ system or disease type:", manager.organ_systems_labels)
+    conditions = manager.get_conditions(selected_system_label)
+    selected_condition = st.selectbox("Select the specific condition you are treating:", conditions)
 
-st.write(f"You selected the system: {selected_system_label} and the condition: {selected_condition}")
+    if st.button("Get Advice"):
+        advice = get_medical_advice("Non-complicated Wounds", "abc", "abc", "abc", "abc", rules_df)
+        st.write(f"Advice: {advice}")
+
+if __name__ == "__main__":
+    main()
