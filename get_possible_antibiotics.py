@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def get_antibiotic_advice(condition, foal_status, pet_status, abscess, application, rules_df):
+def get_possible_antibiotics(condition, foal_status, pet_status, abscess, application, rules_df):
     # Apply filters dynamically based on provided arguments
     conditions = []
     if condition:
@@ -41,8 +41,8 @@ def get_antibiotic_advice(condition, foal_status, pet_status, abscess, applicati
 
     # Check if any rules were found
     if not filtered_rules.empty:
-        # Concatenate all advices into a single string separated by newline
-        advices = '\n'.join(filtered_rules['advice'].drop_duplicates())
-        return advices
+        # Return a list of unique antibiotics
+        antibiotics = filtered_rules['advice'].drop_duplicates().tolist()
+        return antibiotics
     else:
-        return "No advice found for the given conditions."
+        return []

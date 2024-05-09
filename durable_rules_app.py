@@ -2,7 +2,8 @@ from durable.lang import *
 import pandas as pd
 import streamlit as st
 from disease_manager import DiseaseManager
-from get_antibiotic_advice import get_antibiotic_advice
+from get_possible_antibiotics import get_possible_antibiotics
+from get_antibiotic_info import get_antibiotic_info
 
 
 def load_rules():
@@ -17,14 +18,14 @@ def filter_applications(rules_df, selected_condition):
     # Convert the numpy array to a list
     applications_list = unique_applications.tolist()
 
-    if applications_list:  # This check will now work as expected
+    if applications_list:
         print(applications_list)
         return applications_list
     else:
         return [] 
     
 def setup_streamlit(rules_df):
-    st.title('Disease and Condition Selector')
+    st.title('Equine Antibiotics CDSS')
     manager = DiseaseManager(pd.read_excel('diseases.xlsx', sheet_name='Diseases'),
                              pd.read_excel('conditions.xlsx', sheet_name='Conditions'))
 
@@ -35,16 +36,18 @@ def setup_streamlit(rules_df):
     pet_status = st.selectbox("Is the patient a pet or a farm animal?", ["Pet", "Farm Animal"]) 
 
     applications_list = filter_applications(rules_df, selected_condition)
-    print(applications_list)
+
     if applications_list:
+      applications_list.append("any")
       application = st.selectbox("Which method of application do you prefer?", applications_list) 
       print(application)
     else:
       application = ""
 
     if st.button("Get Advice"):
-        advice = get_antibiotic_advice(selected_condition, foal_status, pet_status, "", application, rules_df)
-        st.write(f"Advice: {advice}")
+        antibiotic_list = get_possible_antibiotics(selected_condition, foal_status, pet_status, "", application, rules_df)
+        get_antibiotic_info(antibiotic_list)
+
 
 # Streamlit interface
 def main():
