@@ -4,6 +4,12 @@ import pandas as pd
 def load_rules():
     return pd.read_excel('rules.xlsx')
 
+def load_conditional_questions():
+    df = pd.read_excel('conditional_questions.xlsx')
+    # Delimiter is ";"
+    df['possible_answers'] = df['possible_answers'].apply(lambda x: x.split(';'))
+    return df
+
 def filter_applications(rules_df, selected_condition):
     # Filter the DataFrame for a specific condition
     filtered_df = rules_df[rules_df['condition'] == selected_condition]
