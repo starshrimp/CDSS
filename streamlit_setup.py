@@ -40,5 +40,5 @@ def conditional_setup_streamlit(rules_df, selected_condition, applications_list,
         application = ""
 
     if st.button("Get Advice"):
-        antibiotic_list = get_possible_antibiotics(selected_condition, foal_status, pet_status, abscess, application, rules_df)
-        get_antibiotic_info(antibiotic_list)
+        first_line_antibiotics, other_antibiotics = get_possible_antibiotics(selected_condition, foal_status, pet_status, abscess, application, rules_df)
+        get_antibiotic_info(first_line_antibiotics, other_antibiotics)

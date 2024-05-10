@@ -29,20 +29,29 @@ def get_possible_antibiotics(condition, foal_status, pet_status, abscess, applic
             (rules_df['application'].fillna('') == '')
         )
 
-    # Combine conditions with logical AND
-    if conditions:
-        filtered_rules = rules_df[conditions[0]]
-        for condition in conditions[1:]:
-            filtered_rules = filtered_rules[condition]
-    else:
-        # If no filters are provided, return the full dataset
-        filtered_rules = rules_df
+    filtered_rules = rules_df
+    for condition in conditions:
+        filtered_rules = filtered_rules[condition]
+
+    first_line_antibiotics = filtered_rules[filtered_rules['first_line'] == 'yes']['advice'].drop_duplicates().tolist()
+    other_antibiotics = filtered_rules[filtered_rules['first_line'] != 'yes']['advice'].drop_duplicates().tolist()
+
+    return first_line_antibiotics, other_antibiotics   
+
+    # # Combine conditions with logical AND
+    # if conditions:
+    #     filtered_rules = rules_df[conditions[0]]
+    #     for condition in conditions[1:]:
+    #         filtered_rules = filtered_rules[condition]
+    # else:
+    #     # If no filters are provided, return the full dataset
+    #     filtered_rules = rules_df
 
 
-    # Check if any rules were found
-    if not filtered_rules.empty:
-        # Return a list of unique antibiotics
-        antibiotics = filtered_rules['advice'].drop_duplicates().tolist()
-        return antibiotics
-    else:
-        return []
+    # # Check if any rules were found
+    # if not filtered_rules.empty:
+    #     # Return a list of unique antibiotics
+    #     antibiotics = filtered_rules['advice'].drop_duplicates().tolist()
+    #     return antibiotics
+    # else:
+    #     return []
