@@ -5,7 +5,7 @@ from excel_interface import load_rules, filter_applications
 def main():
     rules_df = load_rules()
     selected_condition = initial_setup_streamlit(rules_df)
-    applications_list, has_foal_status, has_pet_status, has_abscess = filter_applications(rules_df, selected_condition)
+    applications_list = filter_applications(rules_df, selected_condition)
 
     conditional_setup_streamlit(rules_df, selected_condition, applications_list)
 

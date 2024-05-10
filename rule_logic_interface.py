@@ -23,9 +23,10 @@ def get_possible_antibiotics(condition, responses, rules_df):
         filtered_rules = filtered_rules[cond]
 
     first_line_antibiotics = filtered_rules[filtered_rules['first_line'] == 'yes']['advice'].drop_duplicates().tolist()
+    info_antibiotics = filtered_rules[filtered_rules['info_text'] != ""]['advice'].drop_duplicates().tolist()
     other_antibiotics = filtered_rules[filtered_rules['first_line'] != 'yes']['advice'].drop_duplicates().tolist()
 
-    return first_line_antibiotics, other_antibiotics
+    return first_line_antibiotics, other_antibiotics, info_antibiotics
 
 
     # # Combine conditions with logical AND

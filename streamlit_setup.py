@@ -2,8 +2,8 @@ from durable.lang import *
 import pandas as pd
 import streamlit as st
 from disease_manager import DiseaseManager
-from get_possible_antibiotics import get_possible_antibiotics
-from get_antibiotic_info import get_antibiotic_info
+from rule_logic_interface import get_possible_antibiotics
+from antibiotics_logic_interface import get_antibiotic_info
 from excel_interface import load_conditional_questions
 
 
@@ -46,5 +46,5 @@ def conditional_setup_streamlit(rules_df, selected_condition, applications_list)
         responses['application'] = ""
 
     if st.button("Get Advice"):
-        first_line_antibiotics, other_antibiotics = get_possible_antibiotics(selected_condition, responses, rules_df)
-        get_antibiotic_info(first_line_antibiotics, other_antibiotics)
+        first_line_antibiotics, other_antibiotics, info_antibiotics = get_possible_antibiotics(selected_condition, responses, rules_df)
+        get_antibiotic_info(first_line_antibiotics, other_antibiotics, info_antibiotics)
