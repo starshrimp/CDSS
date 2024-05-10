@@ -4,6 +4,7 @@ import streamlit as st
 from disease_manager import DiseaseManager
 from get_possible_antibiotics import get_possible_antibiotics
 from get_antibiotic_info import get_antibiotic_info
+from excel_interface import load_conditional_questions
 
 
 def initial_setup_streamlit(rules_df):
@@ -17,28 +18,33 @@ def initial_setup_streamlit(rules_df):
 
     return selected_condition
 
-def conditional_setup_streamlit(rules_df, selected_condition, applications_list, has_foal_status, has_pet_status, has_abscess):
-    if has_foal_status:
-        foal_status = st.selectbox("Is your patient a foal < 1 month of age?", ["Yes, Foal < 1 Month", "No, older than 1 Month"])
-    else:
-        foal_status = None 
+def conditional_setup_streamlit(rules_df, selected_condition, applications_list):
+    # Load conditional questions
+    conditional_questions = load_conditional_questions()
 
-    if has_pet_status:
-        pet_status = st.selectbox("Is the patient a pet or a farm animal?", ["Pet", "Farm Animal"])
-    else:
-        pet_status = None 
+    # Filter rules DataFrame for the selected condition
+    condition_filtered_rules = rules_df[rules_df['condition'].str.lower() == selected_condition.lower()]
 
-    if has_abscess:
-        abscess = st.selectbox("Is there an abscess present?", ["Yes, Abscess", "No, No Abscess"])
-    else:
-        abscess = None  
+    responses = {}
+    for _, row in conditional_questions.iterrows():
+        feature_key = row['feature_key']
+        question = row['question']
+        possible_answers = row['possible_answers']
+
+        # Check if the feature column exists and has non-empty values for the selected condition
+        if feature_key in condition_filtered_rules.columns and not condition_filtered_rules[feature_key].isnull().all():
+            user_response = st.selectbox(question, possible_answers)
+            responses[feature_key] = user_response
+        else:
+            responses[feature_key] = None
 
     if applications_list:
         applications_list.append("any")
         application = st.selectbox("Which method of application do you prefer?", applications_list)
+        responses['application'] = application
     else:
-        application = ""
+        responses['application'] = ""
 
     if st.button("Get Advice"):
-        first_line_antibiotics, other_antibiotics = get_possible_antibiotics(selected_condition, foal_status, pet_status, abscess, application, rules_df)
+        first_line_antibiotics, other_antibiotics = get_possible_antibiotics(selected_condition, responses, rules_df)
         get_antibiotic_info(first_line_antibiotics, other_antibiotics)
