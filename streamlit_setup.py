@@ -9,6 +9,7 @@ from excel_interface import load_conditional_questions
 
 def initial_setup_streamlit(rules_df):
     st.title('Equine Antibiotics CDSS')
+    st.write('This Clinical Decision Support System is based upon the Antibiotika Leitfaden of the Schweizerische Vereinigung für Pferdemedizin.    \n It is intended to provide the user with an aid in selecting appropriate antibiotic therapy for each indication. The correct selection of antibiotics is critical to ensure optimal treatment outcomes, prevent the development of resistance, and minimize adverse effects.   \n  By integrating the latest research and guidelines, this system supports clinicians in making evidence-based decisions that are tailored to the specific health needs of each patient. This not only enhances the efficacy of treatment but also contributes to the broader effort to curb antibiotic resistance, a growing concern in veterinary as well as human medicine.')
     manager = DiseaseManager(pd.read_excel('diseases.xlsx', sheet_name='Diseases'),
                              pd.read_excel('conditions.xlsx', sheet_name='Conditions'))
 
