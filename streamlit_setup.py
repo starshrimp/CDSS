@@ -40,7 +40,8 @@ def conditional_setup_streamlit(rules_df, selected_condition, applications_list)
 
     if applications_list:
         applications_list.append("any")
-        application = st.selectbox("Which method of application do you prefer?", applications_list)
+        default_option_index = applications_list.index("any")
+        application = st.selectbox("Which method of application do you prefer?", applications_list, default_option_index)
         responses['application'] = application
     else:
         responses['application'] = ""
