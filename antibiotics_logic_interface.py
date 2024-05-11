@@ -13,9 +13,8 @@ def get_antibiotic_info(first_line_antibiotics, other_antibiotics, info_antibiot
             display_antibiotic_info(antibiotics_df, antibiotic, 'first_line')
     if other_antibiotics:
         for antibiotic in other_antibiotics:
-            print(antibiotic)
             if antibiotic == "No antibiotics":
-                st.write("No antibiotics indicated.")
+                st.error("No antibiotics indicated.")
             else:
                 display_antibiotic_info(antibiotics_df, antibiotic, 'no')
 
@@ -30,7 +29,7 @@ def display_antibiotic_info(antibiotics_df, antibiotic, kind):
 
 
         info_content = f"""
-        ## {row['advice']}   \n
+        ## {row['advice']}  ({row['application']})  \n
         **Application**: {row['dosage']} {row['application']} {row['frequency']}    \n
         **Spectrum**: {spectrum_info_str}    \n
         **Warning**: {row['warnings']}
@@ -47,3 +46,5 @@ def display_info_text(antibiotic_name):
     # Display the info text in a Streamlit warning widget
     if info_text:
         st.warning(f"## {antibiotic_name}    \n {info_text}")
+
+
