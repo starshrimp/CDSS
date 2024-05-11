@@ -28,21 +28,3 @@ def get_possible_antibiotics(condition, responses, rules_df):
 
     return first_line_antibiotics, other_antibiotics, info_antibiotics
 
-
-    # # Combine conditions with logical AND
-    # if conditions:
-    #     filtered_rules = rules_df[conditions[0]]
-    #     for condition in conditions[1:]:
-    #         filtered_rules = filtered_rules[condition]
-    # else:
-    #     # If no filters are provided, return the full dataset
-    #     filtered_rules = rules_df
-
-
-    # # Check if any rules were found
-    # if not filtered_rules.empty:
-    #     # Return a list of unique antibiotics
-    #     antibiotics = filtered_rules['advice'].drop_duplicates().tolist()
-    #     return antibiotics
-    # else:
-    #     return []
