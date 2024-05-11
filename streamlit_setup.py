@@ -1,4 +1,3 @@
-from durable.lang import *
 import pandas as pd
 import streamlit as st
 from disease_manager import DiseaseManager

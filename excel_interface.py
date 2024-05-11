@@ -2,19 +2,22 @@ import pandas as pd
 
 
 def load_rules():
+    # loads the rules
     return pd.read_excel('rules.xlsx')
 
 def load_conditional_questions():
+    # loads & processes conditional questions (= additional questions that can be added for antibiotic selection)
     df = pd.read_excel('conditional_questions.xlsx')
     # Delimiter is ";"
     df['possible_answers'] = df['possible_answers'].apply(lambda x: x.split(';'))
     return df
 
-def load_info_text(antibiotic_name):
+def load_info_text(advice):
+    # loads the info_text for an advice and returns the corresponding info text 
     antibiotics_info_df = pd.read_excel('info_texts.xlsx')
 
-    antibiotic_name = antibiotic_name.strip().lower()
-    info_text_row = antibiotics_info_df[antibiotics_info_df['advice'].str.lower().str.strip() == antibiotic_name]
+    advice = advice.strip().lower()
+    info_text_row = antibiotics_info_df[antibiotics_info_df['advice'].str.lower().str.strip() == advice]
 
     # Check if there is an info text available and return it
     if not info_text_row.empty and info_text_row['info_text'].values[0]:
@@ -22,6 +25,8 @@ def load_info_text(antibiotic_name):
 
 
 def filter_applications(rules_df, selected_condition):
+    # Checks for which methods of application are available for the selected condition and returns them
+
     # Filter the DataFrame for a specific condition
     filtered_df = rules_df[rules_df['condition'] == selected_condition]
 
@@ -41,14 +46,8 @@ def check_for_application_methods(filtered_df):
     return unique_applications
 
 
-# def check_for_entries_in_column(filtered_df):
-#     has_foal_status = 'foal_status' in filtered_df.columns and not filtered_df['foal_status'].isnull().all()
-#     has_pet_status = 'pet_status' in filtered_df.columns and not filtered_df['pet_status'].isnull().all()
-#     has_abscess = 'abscess' in filtered_df.columns and not filtered_df['abscess'].isnull().all()
-#     return has_foal_status, has_pet_status, has_abscess
-
-
 def process_spectrum_info(row):
+    # gets spectrum info for the antibiotic and processes it 
     spectrum_info = []
     if not pd.isna(row['gram-positives']):
         spectrum_info.append(f"Gram-positives: {row['gram-positives'].replace('*', '+')}")
