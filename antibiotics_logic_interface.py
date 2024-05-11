@@ -13,19 +13,20 @@ def get_antibiotic_info(first_line_antibiotics, other_antibiotics, info_antibiot
         st.markdown("## Results")
         st.write("The antibiotics displayed in green boxes are first-line options, while those in blue are alternative choices. This distinction helps in prioritizing antibiotic selection based on clinical guidelines. If there are no first-line antibiotics available for your selection, this might be due to your selection of application method, or because your patient exhibits exclusion criteria that prevent you from selecting the recommended first-line antibiotic for the selected condition. If there are no first-line choices available for any application method, you should opt for one of the alternatives.")
 
+    if info_antibiotics:
+        for antibiotic in info_antibiotics:
+            display_info_text(antibiotic)
     if first_line_antibiotics:
-        st.markdown("### First-Line Antibiotics")
+        st.markdown("## First-Line Antibiotics")
         for antibiotic in first_line_antibiotics:
             display_antibiotic_info(antibiotics_df, antibiotic, 'first_line')
 
     if other_antibiotics:
-        st.markdown("### Alternatives")
+        st.markdown("## Alternatives")
         for antibiotic in other_antibiotics:
             display_antibiotic_info(antibiotics_df, antibiotic, 'no')
 
-    if info_antibiotics:
-        for antibiotic in info_antibiotics:
-            display_info_text(antibiotic)
+
 
 def display_antibiotic_info(antibiotics_df, antibiotic, kind):
     display_df = antibiotics_df[antibiotics_df['advice'].str.lower() == antibiotic.lower()]
@@ -49,6 +50,6 @@ def display_info_text(antibiotic_name):
 
     # Display the info text in a Streamlit warning widget
     if info_text:
-        st.warning(f"## {antibiotic_name}    \n {info_text}")
+        st.warning(f"### {antibiotic_name}    \n {info_text}")
 
 
