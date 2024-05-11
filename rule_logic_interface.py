@@ -2,16 +2,17 @@ import pandas as pd
 
 
 def get_possible_antibiotics(condition, responses, rules_df):
+    
     conditions = [rules_df['condition'].str.lower() == condition.lower()]
     for key, response in responses.items():
-            if key != 'application':  # Skip 'application' here; handle it separately below
+            if key != 'application':  
                 if response:
                     conditions.append(
                         (rules_df[key].fillna('').str.lower() == response.lower()) | 
                         (rules_df[key].fillna('') == '')
                     )
 
-        # Handle 'application' response specifically
+        # Handle 'application' response specifically 
     application_response = responses.get('application')
     if application_response and application_response.lower() != 'any':
             conditions.append(
