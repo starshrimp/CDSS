@@ -7,7 +7,6 @@ def main():
     selected_condition = initial_setup_streamlit(rules_df)
     if selected_condition:
         applications_list = filter_applications(rules_df, selected_condition)
-
         conditional_setup_streamlit(rules_df, selected_condition, applications_list)
 
 

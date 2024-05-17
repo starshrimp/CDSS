@@ -33,11 +33,11 @@ def conditional_setup_streamlit(rules_df, selected_condition, applications_list)
         # Check if the feature column exists and has non-empty values for the selected condition
         if feature_key in condition_filtered_rules.columns and not condition_filtered_rules[feature_key].isnull().all():
             if binary_question(possible_answers) == True:
-                
+                # radiobuttons for binary questions
                 response = st.radio(question, ["Yes", "No"], key=f"{feature_key}_binary_{idx}")
                 responses[feature_key] = response
             else:
-            
+                # dropdowns for non-binary questions
                 user_response = st.selectbox(question, ["Select an option"] + possible_answers, key=f"{feature_key}_{idx}")
                 if user_response == "Select an option":
                     st.warning(f"Please select an answer for: {question}")
@@ -60,11 +60,8 @@ def conditional_setup_streamlit(rules_df, selected_condition, applications_list)
         get_antibiotic_info(first_line_antibiotics, other_antibiotics, info_antibiotics)
 
 def binary_question(possible_answers):
-    print(possible_answers)
     for item in possible_answers:
       if item == 'binary':
-        print(possible_answers)
-        print("binary")
         return True
         
     else:
