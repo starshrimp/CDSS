@@ -5,9 +5,10 @@ from excel_interface import load_rules, filter_applications
 def main():
     rules_df = load_rules()
     selected_condition = initial_setup_streamlit(rules_df)
-    applications_list = filter_applications(rules_df, selected_condition)
+    if selected_condition:
+        applications_list = filter_applications(rules_df, selected_condition)
 
-    conditional_setup_streamlit(rules_df, selected_condition, applications_list)
+        conditional_setup_streamlit(rules_df, selected_condition, applications_list)
 
 
 if __name__ == "__main__":

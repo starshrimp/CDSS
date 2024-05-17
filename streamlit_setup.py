@@ -12,11 +12,10 @@ def initial_setup_streamlit(rules_df):
     manager = DiseaseManager(pd.read_excel('diseases.xlsx', sheet_name='Diseases'),
                              pd.read_excel('conditions.xlsx', sheet_name='Conditions'))
 
-    selected_system_label = st.selectbox("Select the organ system or disease type:", manager.organ_systems_labels)
-    conditions = manager.get_conditions(selected_system_label)
-    selected_condition = st.selectbox("Select the specific condition you are treating:", conditions)
-
-    return selected_condition
+    selected_system_label = setup_disease_question(manager)
+    if selected_system_label:
+      selected_condition = setup_condition_question(manager, selected_system_label)
+      return selected_condition
 
 def conditional_setup_streamlit(rules_df, selected_condition, applications_list):
     # Load conditional questions
@@ -26,17 +25,27 @@ def conditional_setup_streamlit(rules_df, selected_condition, applications_list)
     condition_filtered_rules = rules_df[rules_df['condition'].str.lower() == selected_condition.lower()]
 
     responses = {}
-    for _, row in conditional_questions.iterrows():
+    for idx, row in conditional_questions.iterrows():
         feature_key = row['feature_key']
         question = row['question']
         possible_answers = row['possible_answers']
 
         # Check if the feature column exists and has non-empty values for the selected condition
         if feature_key in condition_filtered_rules.columns and not condition_filtered_rules[feature_key].isnull().all():
-            user_response = st.selectbox(question, possible_answers)
-            responses[feature_key] = user_response
+            if binary_question(possible_answers) == True:
+                
+                response = st.radio(question, ["Yes", "No"], key=f"{feature_key}_binary_{idx}")
+                responses[feature_key] = response
+            else:
+            
+                user_response = st.selectbox(question, ["Select an option"] + possible_answers, key=f"{feature_key}_{idx}")
+                if user_response == "Select an option":
+                    st.warning(f"Please select an answer for: {question}")
+                    return None
+                responses[feature_key] = user_response
         else:
             responses[feature_key] = None
+        
 
     if applications_list:
         applications_list.append("any")
@@ -49,3 +58,34 @@ def conditional_setup_streamlit(rules_df, selected_condition, applications_list)
     if st.button("Get Advice"):
         first_line_antibiotics, other_antibiotics, info_antibiotics = get_possible_antibiotics(selected_condition, responses, rules_df)
         get_antibiotic_info(first_line_antibiotics, other_antibiotics, info_antibiotics)
+
+def binary_question(possible_answers):
+    print(possible_answers)
+    for item in possible_answers:
+      if item == 'binary':
+        print(possible_answers)
+        print("binary")
+        return True
+        
+    else:
+        return False
+    
+
+def setup_disease_question(manager):
+    disease_options = manager.organ_systems_labels.tolist()
+    disease_options.insert(0,"Select an option")
+    selected_system_label = st.selectbox("Select an organ system or disease type.", disease_options)
+    if selected_system_label == "Select an option":
+        st.warning("Please select an organ system or disease type.")
+        return None
+    else:
+        return selected_system_label
+    
+def setup_condition_question(manager, selected_system_label):
+    conditions = manager.get_conditions(selected_system_label)
+    selected_condition = st.selectbox("Select the specific condition you are treating.", ["Select an option "] + conditions)
+    if selected_condition == "Select an option":
+        st.warning("Please select a specific condition.")
+        return None
+    else:
+        return selected_condition
