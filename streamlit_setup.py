@@ -34,7 +34,7 @@ def conditional_setup_streamlit(rules_df, selected_condition, applications_list)
         if feature_key in condition_filtered_rules.columns and not condition_filtered_rules[feature_key].isnull().all():
             if binary_question(possible_answers) == True:
                 # radiobuttons for binary questions
-                response = st.radio(question, ["Yes", "No"], key=f"{feature_key}_binary_{idx}")
+                response = st.radio(question, ["Yes", "No"], key=f"{feature_key}_binary_{idx}", index=None)
                 responses[feature_key] = response
             else:
                 # dropdowns for non-binary questions
