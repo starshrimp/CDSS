@@ -8,7 +8,7 @@ from excel_interface import load_conditional_questions
 
 def initial_setup_streamlit(rules_df):
     st.title('Equine Antibiotics CDSS')
-    st.write('This Clinical Decision Support System is based upon the Antibiotika Leitfaden of the Schweizerische Vereinigung für Pferdemedizin.    \n It is intended to provide the user with an aid in selecting appropriate antibiotic therapy for each indication. The correct selection of antibiotics is critical to ensure optimal treatment outcomes, prevent the development of resistance, and minimize adverse effects.   \n  By integrating the latest research and guidelines, this system supports clinicians in making evidence-based decisions that are tailored to the specific health needs of each patient. This not only enhances the efficacy of treatment but also contributes to the broader effort to curb antibiotic resistance, a growing concern in veterinary as well as human medicine.')
+    st.write('This is a prototype created for the Module “Clinical Decision Support Systems(CDSS)” of the MSc Medical Informatics, FHNW, Spring Semester 2024. As such, no guarantee can be given for the information`s correctness, completeness, or actuality.    \n This CDSS is based on the antibiotic guidelines of the Swiss Association for Equine Medicine (Schweizerische Vereinigung für Pferdemedizin, SVPM). It is intended to support veterinarians in prudently using antibiotics in the most frequent indications. The correct selection of antibiotics is critical to ensuring optimal treatment outcomes, preventing the development of antibiotic-resistant bacteria, and minimizing adverse effects.')
     manager = DiseaseManager(pd.read_excel('diseases.xlsx', sheet_name='Diseases'),
                              pd.read_excel('conditions.xlsx', sheet_name='Conditions'))
 
@@ -71,7 +71,7 @@ def binary_question(possible_answers):
 def setup_disease_question(manager):
     disease_options = manager.organ_systems_labels.tolist()
     disease_options.insert(0,"Select an option")
-    selected_system_label = st.selectbox("Select an organ system or disease type.", disease_options)
+    selected_system_label = st.selectbox("Which organ system or disease type are you treating?", disease_options)
     if selected_system_label == "Select an option":
         st.warning("Please select an organ system or disease type.")
         return None
@@ -80,7 +80,7 @@ def setup_disease_question(manager):
     
 def setup_condition_question(manager, selected_system_label):
     conditions = manager.get_conditions(selected_system_label)
-    selected_condition = st.selectbox("Select the specific condition you are treating.", ["Select an option "] + conditions)
+    selected_condition = st.selectbox("Which specific condition you are treating?", ["Select an option "] + conditions)
     if selected_condition == "Select an option":
         st.warning("Please select a specific condition.")
         return None

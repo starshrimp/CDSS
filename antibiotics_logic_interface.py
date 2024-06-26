@@ -11,7 +11,7 @@ def get_antibiotic_info(first_line_antibiotics, other_antibiotics, info_antibiot
 
     if first_line_antibiotics or other_antibiotics:
         st.markdown("## Results")
-        st.write("The antibiotics displayed in green boxes are first-line options, while those in blue are alternative choices. This distinction helps in prioritizing antibiotic selection based on clinical guidelines. If there are no first-line antibiotics available for your selection, this might be due to your selection of application method, or because your patient exhibits exclusion criteria that prevent you from selecting the recommended first-line antibiotic for the selected condition. If there are no first-line choices available for any application method, you should opt for one of the alternatives.")
+        st.write("Antibiotics are prioritized: in green boxes are first-line recommendations, in blue boxes are alternative recommendations.    \n If there is no first-line recommendation for your selection, try the application method “any.” If there is still none, this is due to your patient's exclusion criteria. Please choose one of the alternative recommendations.")
 
     if info_antibiotics:
         for antibiotic in info_antibiotics:
