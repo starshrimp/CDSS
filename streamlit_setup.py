@@ -36,6 +36,9 @@ def conditional_setup_streamlit(rules_df, selected_condition, applications_list)
                 # radiobuttons for binary questions
                 response = st.radio(question, ["Yes", "No"], key=f"{feature_key}_binary_{idx}", index=None)
                 responses[feature_key] = response
+                if response != "Yes" and response != "No":
+                    st.warning(f"Please select an answer for: {question}")
+                    return None
             else:
                 # dropdowns for non-binary questions
                 user_response = st.selectbox(question, ["Select an option"] + possible_answers, key=f"{feature_key}_{idx}")
