@@ -1,4 +1,6 @@
 # CDSS
+This is a prototype created for the Module “Clinical Decision Support Systems(CDSS)” of the MSc Medical Informatics, FHNW, Spring Semester 2024. As such, no guarantee can be given for the information`s correctness, completeness, or actuality. This CDSS is based on the antibiotics guideline of the Swiss Association for Equine Medicine (Schweizerische Vereinigung für Pferdemedizin, SVPM). It is intended to support veterinarians in prudently using antibiotics and covers all frequently occurring indications. The correct selection of antibiotics is critical to ensuring optimal treatment outcomes, preventing the development of antibiotic-resistant bacteria, and minimizing adverse effects.
+
 ## Step-by-Step Installation Guide
 
 ### Prerequisites
