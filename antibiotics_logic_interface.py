@@ -1,3 +1,29 @@
+"""
+antibiotics_logic_interface.py
+
+This module provides functionality to display detailed antibiotic information within a 
+Streamlit application. It includes functions to fetch and display first-line and alternative
+antibiotics, process spectrum information, and present additional textual information for 
+selected antibiotics.
+
+Functions:
+- get_antibiotic_info(first_line_antibiotics, other_antibiotics, info_antibiotics): Main function 
+to display antibiotic recommendations and detailed information.
+- display_antibiotic_info(antibiotics_df, antibiotic, kind): Displays detailed information for a
+specific antibiotic.
+- display_info_text(antibiotic_name): Fetches and displays additional information text for a 
+specific antibiotic.
+
+Modules:
+- pandas: Used to handle data operations, particularly reading the Excel file containing 
+antibiotic data.
+- streamlit: Used to create the web application interface and display various types of messages
+and content.
+- excel_interface: Contains utility functions to process spectrum information and load additional
+text information.
+"""
+
+
 import pandas as pd
 import streamlit as st
 from excel_interface import process_spectrum_info, load_info_text

@@ -1,3 +1,24 @@
+"""
+disease_manager.py
+
+This module defines the DiseaseManager class, which manages disease and condition data for the 
+Equine Antibiotics CDSS. It provides methods to initialize the data, map conditions to diseases, 
+and fetch conditions based on the selected disease.
+
+Classes:
+- DiseaseManager: Manages disease and condition data, including mapping and retrieval of conditions.
+
+Methods:
+- __init__(self, disease_dataframe, condition_dataframe): Initializes the DiseaseManager with 
+disease and condition data.
+- _map_conditions(self): Creates a mapping of conditions to their respective diseases.
+- get_conditions(self, system_label): Retrieves a list of conditions for the given system label.
+
+Modules:
+- pandas: Used to handle data operations, particularly reading and processing Excel files.
+"""
+
+
 class DiseaseManager:
     def __init__(self, disease_dataframe, condition_dataframe):
         self.disease_data = disease_dataframe

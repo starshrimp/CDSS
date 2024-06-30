@@ -1,3 +1,32 @@
+"""
+streamlit_setup.py
+
+This module sets up the Streamlit interface for the Equine Antibiotics Clinical Decision Support 
+System (CDSS). It includes functions to initialize the interface, manage disease and condition 
+questions, handle conditional setups, and interact with other modules to fetch and display 
+antibiotic recommendations.
+
+Functions:
+- initial_setup_streamlit(rules_df): Initializes the Streamlit interface, sets up the disease
+question, and returns the selected condition.
+- conditional_setup_streamlit(rules_df, selected_condition, applications_list): Sets up conditional
+ questions based on the selected condition and displays antibiotic recommendations.
+- binary_question(possible_answers): Determines if a question is binary based on possible answers.
+- setup_disease_question(manager): Sets up the initial question regarding the organ system or 
+disease type.
+- setup_condition_question(manager, selected_system_label): Sets up the subsequent question 
+regarding the specific condition being treated.
+
+Modules:
+- pandas: Used to read Excel files containing disease and condition data.
+- streamlit: Used to create the web application interface and display various UI components.
+- disease_manager: Manages disease and condition data.
+- rule_logic_interface: Provides logic to fetch possible antibiotic recommendations.
+- antibiotics_logic_interface: Provides functions to display detailed antibiotic information.
+- excel_interface: Contains utility functions to load conditional questions from an Excel file.
+"""
+
+
 import pandas as pd
 import streamlit as st
 from disease_manager import DiseaseManager

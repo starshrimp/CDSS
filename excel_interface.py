@@ -1,3 +1,27 @@
+"""
+excel_interface.py
+
+This module handles the loading and processing of data from various Excel files. 
+It includes functions to load rules, conditional questions, information texts, filter 
+applications based on selected conditions, and process spectrum information for antibiotics.
+
+Functions:
+- load_rules(): Loads the rules from the 'rules.xlsx' file.
+- load_conditional_questions(): Loads and processes conditional questions from the 
+'conditional_questions.xlsx' file.
+- load_info_text(advice): Loads and returns the information text for a given antibiotic advice 
+from the 'info_texts.xlsx' file.
+- filter_applications(rules_df, selected_condition): Filters the available application methods 
+for a selected condition.
+- check_for_application_methods(filtered_df): Checks and returns unique application methods from
+ the filtered DataFrame.
+- process_spectrum_info(row): Processes and returns the spectrum information for an antibiotic.
+
+Modules:
+- pandas: Used to handle data operations, particularly reading and processing Excel files.
+"""
+
+
 import pandas as pd
 
 
