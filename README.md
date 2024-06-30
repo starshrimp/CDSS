@@ -13,6 +13,7 @@ First, clone the repository containing the project files. Open your terminal or 
 ### Step 2: Navigate to the Project Directory
 Change your directory to the project folder:
 ```cd <project_directory>```
+
 Replace <project_directory> with the name of the folder where the project files are located.
 
 ### Step 3: Install Required Packages
